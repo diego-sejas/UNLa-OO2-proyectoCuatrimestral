@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<meta charset="utf-8" />
+	<title th:text="${title}"></title>
+	<link href="/assets/css/admin.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #edf1f5;">
+	<div class="preloader">
+		<div class="lds-ripple">
+			<div class="lds-pos"></div>
+			<div class="lds-pos"></div>
+		</div>
+	</div>
+	<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+		data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+		<header class="topbar" data-navbarbg="skin5">
+			<nav class="navbar top-navbar navbar-expand-md navbar-dark">
+				<div class="navbar-header" data-logobg="skin6">
+					<a class="navbar-brand" href="/">
+						<b class="logo-icon">
+							<img src="/assets/images/unla.jpg" width="48" height="48" />
+						</b>
+					</a>
+					<a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
+						href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+				</div>
+				<div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+					<ul class="navbar-nav ms-auto d-flex align-items-center">
+						<li>
+							<a class="profile-pic" href="#">
+								<img src="/assets/images/unla.jpg" alt="user-img" width="36" class="img-circle"><span
+									class="text-white font-medium" th:text="${userName}"></span></a>
+						</li>
+						<li>
+							<form th:action="@{/logout}" method="post" class="mx-auto">
+								<button class="px-4 text-warning btn" style="background-color:transparent">
+									<i class="fas fa-sign-out-alt"></i>
+									<span>Cerrar Sesión</span></button>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+
+		<aside class="left-sidebar" data-sidebarbg="skin6">
+			<!-- Menu Izquierdo -->
+			<div class="scroll-sidebar">
+				<nav class="sidebar-nav">
+					<ul id="sidebarnav">
+						<li class="sidebar-item pt-2" th:each="link : ${sideBar}">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link"
+								th:classappend="${link.id} == ${sideBarLink} ? text-primary : text-dark"
+								th:href="${link.url}" aria-expanded="false">
+								<div class="mx-2"><i th:class="${link.icon}"></i></div>
+								<span class="hide-menu" th:text="${link.text}"></span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</aside>
+		<div class="page-wrapper">
+			<div class="page-breadcrumb bg-white shadow">
+				<div class="row align-items-center">
+					<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+						<h4 class="page-title" th:text="${pageName}"></h4>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="container-fluid">
+				<!-- CONTENIDO DEL ADMIN ACA 
+                Contenido de pageName = <span th:text="${pageName}"></span>-->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="white-box">
+							<div class="alert alert-success" th:if="${success!=null}" th:text="${success}"></div>
+							<div class="alert alert-danger" th:if="${error!=null}" th:text="${error}"></div>
+							<div class="alert alert-warning" th:if="${warning!=null}" th:text="${warning}"></div>
+							<div class="alert alert-info" th:if="${info!=null}" th:text="${info}"></div>
+
+							<form th:action="@{/admin/roles/} + ${role.getId()}" th:object="${role}" method="post">
+								<div class="form-group row">
+									<label class="col-sm-2 col-form-label">Nombre</label>
+									<div class="col-sm-6">
+										<input required type="text" class="form-control" th:field="*{name}"
+											th:errorclass="'form-control alert-danger'" /> <small
+											class="form-text text-danger" th:if="${#fields.hasErrors('name')}"
+											th:errors="*{name}"></small>
+									</div>
+								</div>
+								
+								<div class="form-group row">
+									<label class="col-sm-2 col-form-label">Nivel de Administrador</label>
+									<div class="col-sm-6">
+										<select class="form-select" aria-label="Default select example" th:field="*{adminLevel}"
+											th:errorclass="'form-control alert-danger'">
+											<option value="0" th:selected="${adminLevel == 0}">0 (Acceso Restringido)</option>
+											<option value="25" th:selected="${adminLevel == 25}">25 (Acceso Bajo)</option>
+											<option value="50" th:selected="${adminLevel == 50}">50 (Acceso Intermedio)</option>
+											<option value="100" th:selected="${adminLevel == 100}">100 (Acceso Completo)</option>
+										</select> 
+										<small
+											class="form-text text-danger"
+											th:if="${#fields.hasErrors('adminLevel')}" th:errors="*{adminLevel}"></small>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-sm-6">										
+										<a class="btn btn-outline-secondary mx-2" th:href="@{/admin/roles}">Cancelar</a>
+										<button type="submit" class="btn btn-primary">
+											<i class="fas fa-pencil-alt mx-1"></i> Editar Rol
+										</button> 
+									</div>
+								</div>								
+							</form>
+						</div>
+					</div>
+				</div>	
+			</div>
+					
+         </div>          
+        </div>
+
+        
+        <script src="/assets/js/jquery.js"></script>
+        <script src="/assets/js/popper.js"></script>
+        <script src="/assets/js/bootstrap.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+
+        <script src="/assets/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+        <script src="/assets/js/waves.js"></script>
+        <script src="/assets/js/sidebarmenu.js"></script>
+        <script src="/assets/js/custom.js"></script>
+</body>
+
+</html>

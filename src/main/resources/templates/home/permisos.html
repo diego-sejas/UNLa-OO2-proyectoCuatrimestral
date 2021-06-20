@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${title}"></title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/permisos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link href="/assets/css/bootstrap-datepicker.css" rel="stylesheet" />
+</head>
+
+<body style="background-color: #edf1f5;">
+    <div class="register vh-100 w-100 overflow-hidden">
+        <div class="row">
+            <div class="col-md-3 vh-100 d-flex justify-content-center flex-column align-items-center register-left">
+                <img src="/assets/images/checking.png" alt="" />
+                <h3>Solicitar Permiso</h3>
+                <p id="info-general">Solicitá un permiso para viajar, seleccionado
+                    fechas, destino y rodado</p>
+                <div id="info-persona" class="px-4 d-none">Creando Permiso para <strong id="info-name"></strong> DNI
+                    <strong id="info-dni"></strong><br /></div>
+                <div id="info-rodado" class="px-4 d-none">Medio de Transporte:<strong id="info-rodado-type"> </strong>
+                    <div id="info-rodado-2" class="px-4 d-none">
+                        Dominio: <strong id="info-rodado-dominio"></strong><br />
+                        Tipo: <strong id="info-rodado-vehiculo"></strong>
+                    </div>
+                </div>
+                <div id="info-lugar" class="px-4 d-none">
+                    <i class="fas fa-map-marker-alt"></i> <strong id="info-lugar-salida"></strong> <i
+                        class="fas fa-arrow-right mx-2"></i> <i class="fas fa-map-marker-alt"></i>
+                    <strong id="info-lugar-destino"></strong>
+                </div>
+                <div id="info-motivo" class="px-4 d-none">
+                    Motivo: <strong id="info-motivo-permiso"></strong>
+                </div>
+
+                <a type="submit" href="/">Volver al Sistema</a>
+            </div>
+            <div class="col-md-9 vh-100 d-flex justify-content-center flex-column align-items-center register-right">
+                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="persona-tab" data-toggle="tab" href="#persona" role="tab"
+                            aria-controls="persona" aria-selected="true">Persona</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" id="rodado-tab" data-toggle="tab" href="#rodado" role="tab"
+                            aria-controls="rodado" aria-selected="false">Rodado</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" id="lugar-tab" data-toggle="tab" href="#lugar" role="tab"
+                            aria-controls="lugar" aria-selected="false">Lugar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" id="motivo-tab" data-toggle="tab" href="#motivo" role="tab"
+                            aria-controls="motivo" aria-selected="false">Motivo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" id="fecha-tab" data-toggle="tab" href="#fecha" role="tab"
+                            aria-controls="fecha" aria-selected="false">Fecha</a>
+                    </li>
+                </ul>
+                <div class="tab-content w-75" id="myTabContent">
+                    <!-- Tab de Persona -->
+                    <div class="tab-pane fade show active" id="persona" role="tabpanel" aria-labelledby="persona-tab">
+                        <h3 class="register-heading">Completa tus Datos</h3>
+                        <form id="form-1-persona" method="POST" action="/permisos/personas/create">
+                            <div class="row register-form">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                                            value="" autocomplete="off" required tabindex="1" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="dni" placeholder="DNI" value=""
+                                            pattern="[0-9]{7,8}" autocomplete="off" required tabindex="3" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="apellido" placeholder="Apellido"
+                                            value="" autocomplete="off" required tabindex="2" />
+                                    </div>
+                                    <div class="form-group">
+                                        &nbsp;
+                                    </div>
+
+                                    <button class="btn btn-primary btn-block btn-granate" type="submit">
+                                        <span id="form-1-continue">Continuar</span>
+                                        <div id="form-1-spinner"
+                                            class="spinner-border d-none text-light spinner-border-sm m-1"
+                                            role="status">
+                                            <span class="sr-only">Cargando...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Tab de Rodado-->
+                    <div class="tab-pane fade show" id="rodado" role="tabpanel" aria-labelledby="rodado-tab">
+                        <div id="rodado-first">
+                            <h3 class="register-heading">Datos del transporte a usar</h3>
+                            <h4 class="register-subheading">¿Qué medio de transporte usás?</h2>
+                                <form id="form-2-rodado-1">
+                                    <div class="row register-form">
+                                        <div class="col-md-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rodadoRadios[]"
+                                                    id="rodadoRadios1" value="1" checked>
+                                                <label class="form-check-label" for="rodadoRadios1">
+                                                    Transporte público
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rodadoRadios[]"
+                                                    id="rodadoRadios2" value="2">
+                                                <label class="form-check-label" for="rodadoRadios2">
+                                                    Vehículo y/o Moto
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rodadoRadios[]"
+                                                    id="rodadoRadios3" value="3">
+                                                <label class="form-check-label" for="rodadoRadios3">
+                                                    Bicicleta
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="rodadoRadios[]"
+                                                    id="rodadoRadios4" value="4">
+                                                <label class="form-check-label" for="rodadoRadios4">
+                                                    Pie
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-primary btn-block btn-granate" type="submit">
+                                                <span id="form-2-1-continue">Continuar</span>
+                                                <div id="form-2-1-spinner"
+                                                    class="spinner-border d-none text-light spinner-border-sm m-1"
+                                                    role="status">
+                                                    <span class="sr-only">Cargando...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+                        <div id="rodado-second" style="display: none;">
+                            <h3 class="register-heading">Completa los datos del Rodado</h3>
+                            <form id="form-2-rodado-2" method="POST" action="/permisos/rodados/create">
+                                <div class="row register-form">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="dominio" placeholder="Dominio"
+                                                value=""
+                                                pattern="[A-Z]{3}[0-9]{3}|[A-Z]{2}[0-9]{3}[A-Z]{2}"
+                                                autocomplete="off" required tabindex="1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <input class="form-control" list="datalistOptions" id="rodadoDataList"
+                                            placeholder="Tipo de Vehículos..." name="vehiculo" required>
+                                        <datalist id="datalistOptions">
+                                            <option value="Motocicleta">
+                                            <option value="Motocarro">
+                                            <option value="Automóvil de tres ruedas">
+                                            <option value="Autobús">
+                                            <option value="Trolebús">
+                                            <option value="Automóvil" selected>
+                                            <option value="Camión">
+                                            <option value="Autobús">
+                                            <option value="Furgón">
+                                            <option value="Tractor">
+                                            <option value="Motocultor">
+                                        </datalist>
+
+                                        <button class="btn btn-primary btn-block btn-granate" type="submit">
+                                            <span id="form-2-continue">Continuar</span>
+                                            <div id="form-2-spinner"
+                                                class="spinner-border d-none text-light spinner-border-sm m-1"
+                                                role="status">
+                                                <span class="sr-only">Cargando...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Tab de Lugar-->
+                    <div class="tab-pane fade show" id="lugar" role="tabpanel" aria-labelledby="lugar-tab">
+                        <h3 class="register-heading">Completa Datos de Lugar de Salida y Destino</h3>
+                        <form id="form-3-lugar" method="POST">
+                            <div class="row register-form">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select class="custom-select" name="salida" id="lugar-salida" required>
+                                            <option selected disabled>Seleccionar Salida</option>
+                                            <option th:each="lugar: ${lugares}" th:value="${lugar.toJson(lugar)}"
+                                                th:text="${lugar.lugar}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select class="custom-select" name="destino" id="lugar-destino" required>
+                                            <option selected disabled>Seleccionar Destino</option>
+                                            <option th:each="lugar: ${lugares}" th:value="${lugar.toJson(lugar)}"
+                                                th:text="${lugar.lugar}"></option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary btn-block btn-granate" type="submit">
+                                        <span id="form-3-continue">Continuar</span>
+                                        <div id="form-3-spinner"
+                                            class="spinner-border d-none text-light spinner-border-sm m-1"
+                                            role="status">
+                                            <span class="sr-only">Cargando...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Tab de Motivo-->
+                    <div class="tab-pane fade show" id="motivo" role="tabpanel" aria-labelledby="motivo-tab">
+                        <h3 class="register-heading">Motivo de tu Permiso</h3>
+                        <div id="motivo-1">
+                            <form id="form-4-motivo" method="POST">
+                                <div class="row register-form">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <select class="custom-select" name="motivo" id="motivo-permiso" required>
+                                                <option selected disabled>Seleccionar Motivo</option>
+                                                <option value="1">Permiso Especial (24hs)</option>
+                                                <option value="2">Permiso Temporario (+24hs)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary btn-block btn-granate" type="submit">
+                                            <span id="form-4-continue">Continuar</span>
+                                            <div id="form-4-spinner"
+                                                class="spinner-border d-none text-light spinner-border-sm m-1"
+                                                role="status">
+                                                <span class="sr-only">Cargando...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="motivo-2" style="display:none">
+                            <form id="form-5-motivo-especial" method="POST">
+                                <div class="row register-form">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">¿Cuál es el Motivo del
+                                                    Permiso?</label>
+                                                <textarea class="form-control" id="motivo-permiso-descripcion" rows="6"
+                                                    required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary btn-block btn-granate" type="submit">
+                                            <span id="form-5-continue">Continuar</span>
+                                            <div id="form-5-spinner"
+                                                class="spinner-border d-none text-light spinner-border-sm m-1"
+                                                role="status">
+                                                <span class="sr-only">Cargando...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="motivo-3" style="display:none">
+                            <form id="form-5-motivo-temporario" method="POST">
+                                <div class="row register-form">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" name="cant-dias"
+                                                id="motivo-cant-dias" placeholder="Cantidad de Días" value=""
+                                                autocomplete="off" min=1 max=30 required tabindex="1" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="motivo-vacaciones">
+                                                <label class="form-check-label" for="defaultCheck1">
+                                                    Motivo por Vacaciones
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary btn-block btn-granate" type="submit">
+                                            <span id="form-6-continue">Continuar</span>
+                                            <div id="form-6-spinner"
+                                                class="spinner-border d-none text-light spinner-border-sm m-1"
+                                                role="status">
+                                                <span class="sr-only">Cargando...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Tab de Fecha-->
+                    <div class="tab-pane fade show" id="fecha" role="tabpanel" aria-labelledby="fecha-tab">
+                        <h3 class="register-heading">Seleccionar Fecha</h3>
+                        <form id="form-6-fecha" method="POST" action="/permisos/create">
+                            <div class="row register-form">
+                                <div class="col-md-12 my-2">
+                                    <i class="far fa-calendar-alt mr-2"></i> Seleccionar Fecha del Permiso
+                                </div>
+                                <div class="col-md-6">                                    
+                                    <div class="input-group date">
+                                        <input type="text" id="permiso-fecha" class="form-control" required><span class="input-group-addon"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="margin-top: -4%;">                                
+                                    <button class="btn btn-primary btn-block btn-granate" type="submit">
+                                        <span id="form-6-continue">Solicitar Permiso</span>
+                                        <div id="form-6-spinner"
+                                            class="spinner-border d-none text-light spinner-border-sm m-1"
+                                            role="status">
+                                            <span class="sr-only">Cargando...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/popper.js"></script>
+    <script src="/assets/js/bootstrap.js"></script>
+    <script src="/assets/js/bootstrap-datepicker.js"></script>
+    <script src="/assets/locales/bootstrap-datepicker.es.min.js"></script>
+
+    <script src="/assets/js/permisos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+</body>
+
+</html>

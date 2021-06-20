@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${title}"></title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/errors.css">
+
+</head>
+
+<body style="background-color: #edf1f5;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-lg-5 fixed-top">
+        <a class="navbar-brand" href="/"> <img src="/assets/images/unla.jpg" width="40" height="40" alt="">
+            <span class="d-none d-sm-inline px-3" th:text="${appName}"></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto ">
+                <li class="nav-item active"></li>
+            </ul>
+            <!-- Guest -->
+            <ul class="navbar-nav mr-2" th:if="${user == null}">
+               
+                <li class="nav-item mx-1"><a class="btn btn-outline nav-link px-3" th:href="@{/login}"><i
+                            class="fas fa-sign-in-alt mx-2"></i>Ingresar al Sistema</a>
+                </li>
+                <!-- 
+                	Links del NavBar Izquierda
+            	-->
+            </ul>
+            <!-- Auth -->
+            <ul class="navbar-nav mr-2" th:if="${user != null}">
+                <li class="nav-item mx-1"><a class="btn nav-link text-dark px-3" th:href="@{/dashboard}"><i
+                            class="fas fa-user"></i>&nbsp;&nbsp;Bienvenido <strong
+                            th:text="${user.getFirstName() + ' ' + user.getLastName()}"></strong>
+                        (DNI <span th:text="${user.getDni()}"></span>)</a>
+                </li>
+                <li class="nav-item mx-1"><a class="btn btn-dark nav-link text-light px-3"
+                        th:href="@{/admin/dashboard}"><i class="fas fa-tachometer-alt mx-1"></i> Ir al Panel de
+                        Administración</a>
+                </li>
+                <li>
+                    <form th:action="@{/logout}" method="post" class="mx-auto">
+                        <button class="btn btn-outline nav-link px-3" style="background-color:transparent">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span></button>
+                    </form>
+                </li>
+                <!-- 
+                	Links del NavBar Izquierda
+            	-->
+            </ul>
+        </div>
+    </nav>
+    <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+        <div class="container">
+            <div class="box">
+                <div class="box__ghost">
+                    <div class="symbol"></div>
+                    <div class="symbol"></div>
+                    <div class="symbol"></div>
+                    <div class="symbol"></div>
+                    <div class="symbol"></div>
+                    <div class="symbol"></div>
+
+                    <div class="box__ghost-container">
+                        <div class="box__ghost-eyes">
+                            <div class="box__eye-left"></div>
+                            <div class="box__eye-right"></div>
+                        </div>
+                        <div class="box__ghost-bottom">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div class="box__ghost-shadow"></div>
+                </div>
+
+                <div class="box__description">
+                    <div class="box__description-container">
+                        <div class="box__description-title">¡Ups! Tenemos un problema grave!</div>
+                    </div>
+
+                    <a href="/" class="box__button">Volver al Inicio</a>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/popper.js"></script>
+    <script src="/assets/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+
+    <script>
+        var pageX = $(document).width();
+        var pageY = $(document).height();
+        var mouseY = 0;
+        var mouseX = 0;
+
+        $(document).mousemove(function (event) {
+            //verticalAxis
+            mouseY = event.pageY;
+            yAxis = (pageY / 2 - mouseY) / pageY * 300;
+            //horizontalAxis
+            mouseX = event.pageX / -pageX;
+            xAxis = -mouseX * 100 - 100;
+
+            $('.box__ghost-eyes').css({
+                'transform': 'translate(' + xAxis + '%,-' + yAxis + '%)'
+            });
+
+            //console.log('X: ' + xAxis);
+
+        });
+    </script>
+</body>
+
+</html>

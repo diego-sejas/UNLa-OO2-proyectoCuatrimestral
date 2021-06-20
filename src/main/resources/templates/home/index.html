@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title th:text="${title}"></title>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/css/bootstrap.css">
+	<link rel="stylesheet" href="/assets/css/login.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+</head>
+
+<body style="background-color: #edf1f5;">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm px-lg-5 fixed-top">
+		<a class="navbar-brand" href="/"> <img src="/assets/images/unla.jpg" width="40" height="40" alt="">
+			<span class="d-none d-sm-inline px-3" th:text="${appName}"></span>
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto ">
+				<li class="nav-item active"></li>
+			</ul>
+			<!-- Guest -->
+			<ul class="navbar-nav mr-2" th:if="${user == null}">
+				<li class="nav-item mx-1"><a class="btn btn-outline nav-link px-3" th:href="@{/login}"><i
+							class="fas fa-sign-in-alt mx-2"></i>Ingresar al Sistema</a>
+				</li>
+				<!-- 
+                	Links del NavBar Izquierda
+            	-->
+			</ul>
+			<!-- Auth -->
+			<ul class="navbar-nav mr-2" th:if="${user != null}">
+				<li class="nav-item mx-1"><a class="btn nav-link text-dark px-3" th:href="@{/dashboard}"><i
+							class="fas fa-user"></i>&nbsp;&nbsp;Bienvenido <strong
+							th:text="${user.getFirstName() + ' ' + user.getLastName()}"></strong>
+						(DNI <span th:text="${user.getDni()}"></span>)</a>
+				</li>
+				<li class="nav-item mx-1"><a class="btn btn-dark nav-link text-light px-3"
+						th:href="@{/admin/dashboard}"><i class="fas fa-tachometer-alt mx-1"></i> Ir al Panel de
+						Administración</a>
+				</li>
+				<li>
+					<form th:action="@{/logout}" method="post" class="mx-auto">
+						<button class="btn btn-outline nav-link px-3" style="background-color:transparent">
+							<i class="fas fa-sign-out-alt"></i>
+							<span>Cerrar Sesión</span></button>
+					</form>
+				</li>
+				<!-- 
+                	Links del NavBar Izquierda
+            	-->
+			</ul>
+		</div>
+	</nav>
+
+	<main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+		<div class="container mb-5">
+			<div class="mt-5 pt-5">
+				<div class="row mbr-justify-content-center">
+					<div class="col-lg-6 mbr-col-md-10">
+						<a class="text-dark text-decoration-none" href="/permisos">
+							<div class="wrap">
+								<div class="ico-wrap">
+									<span class="mbr-iconfont fa-route fas"></span>
+								</div>
+								<div class="text-wrap vcenter">
+									<h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">Solicitar un
+										Permiso</h2>
+									<p class="mbr-fonts-style text1 mbr-text display-6">Solicitá un permiso para viajar,
+										seleccionado
+										fechas, destino y rodado
+									</p>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-lg-6 mbr-col-md-10">
+						<a class="text-dark text-decoration-none" href="#" data-toggle="modal"
+							data-target="#buscarModal">
+							<div class="wrap">
+								<div class="ico-wrap">
+									<span class="mbr-iconfont fab fa-searchengin"></span>
+								</div>
+								<div class="text-wrap vcenter">
+									<h2 class="mbr-fonts-style mbr-bold mbr-section-title3 display-5">Buscar Permisos
+									</h2>
+									<p class="mbr-fonts-style text1 mbr-text display-6">Buscar el estado de tu Permiso
+										con tu número de documento (DNI)
+									</p>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+
+			</div>
+			<div class="card login-card">
+				<div class="row no-gutters">
+					<div class="col-md-5">
+						<img src="assets/images/unla-banner.jpg" alt="login" class="login-card-img">
+					</div>
+					<div class="col-md-7">
+						<div class="card-body">
+							<div align="center">
+								<img src="assets/images/unla.jpg" width="96" height="96" alt="logo" class="logo">
+							</div>
+							<p class="login-card-description" align="center"></p>
+							<form action="#!" class="mx-auto">
+								<div>
+									<a> <strong><u>Carrera: </u></strong> Licenciatura en Sistemas </a>
+								</div>
+								<div>
+									<a> <strong><u>Materia: </u></strong> Orientación a Objetos II </a>
+								</div>
+								<div>
+									<a> <strong><u>Equipo docente: </u></strong> </a>
+								</div>
+								<div>
+									<a> <strong>Titular : </strong>Lic. María Alejandra Vranić</a>
+								</div>
+								<div>
+									<a> <strong>Ayudantes : </strong>Lic. Gustavo Siciliano </a>
+								</div>
+								<div>
+									<a> <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>Lic.
+										Romina Mansilla</a>
+								</div>
+								<p class="login-card-description" align="center"></p>
+								<div>
+									<a> <strong><u>Grupo Nº 6 :</u></strong> Integrantes</a>
+								</div>
+								<div>
+									<a> <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>Perez,
+										Federico Bernardo</a>
+								</div>
+								<div>
+									<a> <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>Sejas,
+										Diego Alejandro</a>
+								</div>
+								<div>
+									<a> <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>Haron,
+										Leonardo Nahuel</a>
+								</div>
+								<p class="login-card-description" align="center"></p>
+								<a th:href="@{/login}"><input name="login" id="login" th:if="${user == null}"
+										class="btn btn-block login-btn mb-4" type="button" value="Ingresar"></a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Modal -->
+	<div class="modal fade" id="buscarModal" tabindex="-1" role="dialog" aria-labelledby="buscarModal"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<form id="form-1-persona" method="POST" action="/permisos/personas/show">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h6 class="modal-title font-weight-bold"><span class="fab fa-searchengin"></span> Buscar Permiso
+						</h6>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-danger alert-dismissible fade show" role="alert" id="buscarError"
+							style="display:none;">
+							<b>Error</b>: La <strong>Persona</strong> no se encuentra en la base de datos.
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+						<div class="col-md-12 mt-4">
+							<div class="form-group">
+								<input type="text" class="form-control" name="nombre" placeholder="Nombre" value=""
+									autocomplete="off" required tabindex="1" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" name="apellido" placeholder="Apellido" value=""
+									autocomplete="off" required tabindex="2" />
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<input type="text" class="form-control" name="dni" placeholder="DNI" value=""
+									pattern="[0-9]{7,8}" autocomplete="off" required tabindex="3" />
+							</div>
+						</div>
+						<div class="container mt-4" id="buscarListado" style="display:none;">
+							<hr class="my-4">
+							<h5>Listado de Permisos Solicitados</h5>
+							<div id="buscarListadoLinks" class="list-group my-4">
+								<!--							<a href="#" class="list-group-item list-group-item-action"><b>Nombre y Apellido</b> -
+									<b>35123321</b> - Permiso Especial - Fecha: <b>10/06/2021</b>
+									<div class="text-muted float-right">Ver Permiso</div>
+								</a>	-->
+							</div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<button class="btn btn-primary btn-granate" type="submit">
+							<span id="form-1-continue">Buscar</span>
+							<div id="form-1-spinner" class="spinner-border d-none text-light spinner-border-sm m-1"
+								role="status">
+								<span class="sr-only">Buscando...</span>
+							</div>
+						</button>
+					</div>
+			</form>
+		</div>
+	</div>
+	</div>
+
+	<script src="/assets/js/jquery.js"></script>
+	<script src="/assets/js/popper.js"></script>
+	<script src="/assets/js/bootstrap.js"></script>
+	<script src="/assets/js/permisos_buscar.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+	<style>
+		.btn-granate {
+			border: none;
+			background: #911a1e;
+			color: #fff;
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.btn-granate:hover,
+		.btn-granate:active {
+			background: #e93d42 !important;
+		}
+
+		.btn-granate:focus {
+			background: #911a1e;
+			border-color: #e93d42;
+		}
+	</style>
+</body>
+
+</html>

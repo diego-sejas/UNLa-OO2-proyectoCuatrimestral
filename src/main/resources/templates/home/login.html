@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title th:text="${title}"></title>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/css/bootstrap.css">
+	<link rel="stylesheet" href="/assets/css/login.css">
+</head>
+
+<body style="background-color: #edf1f5;">
+	<main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+		<div class="container">
+			<div class="card login-card">
+				<div class="row no-gutters">
+					<div class="col-md-5">
+						<img src="/assets/images/unla-banner.jpg" alt="login" class="login-card-img">
+					</div>
+					<div class="col-md-7">
+						<div class="card-body text-center">
+							<div class="mb-4">
+								<img src="/assets/images/unla.jpg" alt="logo" width="72" height="72">
+							</div>
+							<p class="login-card-description font-weight-bold"><i class="fas fa-user fa-fw mr-2"></i>
+								Iniciar Sesión</p>
+							<form th:action="@{/login}" method="post" class="mx-auto">
+
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="far fa-envelope"></i>
+										</span>
+									</div>
+									<input type="email" name="email" class="form-control" required
+										placeholder="Correo Electrónico">
+								</div>
+
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="fas fa-key"></i>
+										</span>
+									</div>
+									<input type="password" name="password" class="form-control" required
+										placeholder="***********">
+								</div>
+
+								<div class="alert alert-danger" th:if="${message != null}"><span
+										th:text="${message}"></span></div>
+
+								<input type="submit" name="login" id="login" class="btn btn-block login-btn mb-4"
+									value="Conectarse">
+									
+								<hr>
+								
+								<a th:href="@{/}">
+									<input name="login" id="login" class="btn btn-block login-btn mb-4" type="button"
+										value="Volver al Inicio">
+								</a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script src="/assets/js/jquery.js"></script>
+	<script src="/assets/js/popper.js"></script>
+	<script src="/assets/js/bootstrap.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+</body>
+
+</html>
